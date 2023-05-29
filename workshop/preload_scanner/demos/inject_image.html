@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--
+  @license Copyright 2023 Google Inc. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Author: mbordihn@google.com (Markus Bordihn)
+-->
+  <head>
+    <title>Injecting Elements and Preload Scanner</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="scripts/main.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Injecting Elements and Preload Scanner</h1>
+      <p>
+        The demo shows that dynamically injecting elements, like images via
+        JavaScript, won't be pre-loaded in parallel by the preload scanner.
+      </p>
+    </header>
+    <main>
+      <h2>Implications:</h2>
+      <p>
+        Dynamically injected images are not detected by the preload scanner and
+        are not included in the parallel loading process.
+      </p>
+
+      <h2>Considerations:</h2>
+      <p>
+        Developers should carefully balance dynamic element injection and
+        pre-loading strategies for optimal performance.
+      </p>
+
+      <h2>Screenshot:</h2>
+      <p>
+        <script>
+          document.write(
+            '<img src="assets/inject_image_performance.png" alt="Inject Image performance overview" />'
+          );
+        </script>
+      </p>
+    </main>
+    <footer>
+      <p>
+        Source:
+        <a
+          href="https://github.com/gtech-professional-services/web-performance-lab"
+        >
+          Web Performance Lab</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>
