@@ -1,6 +1,4 @@
 /**
- *  This file is not used any more and all code has been removed
- *
     Copyright 2023 Google LLC
 
     Licensed under the Apache License, Version 2.0 (the "License");
