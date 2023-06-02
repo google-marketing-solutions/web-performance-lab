@@ -8,3 +8,8 @@ You could access Lighthouse:
 - From the command line. Automate your Lighthouse runs via shell scripts.
 - As a Node module. Integrate Lighthouse into your continuous integration systems.
 - From a web UI. Run Lighthouse and link to reports without installing a thing.
+
+## Demos
+
+- [Example User Flow using Lighthouse and Puppeteer](./demos/example-user-flow/README.md)
+- [Page with Ads and Consent Popup](./demos/page/README.md)
