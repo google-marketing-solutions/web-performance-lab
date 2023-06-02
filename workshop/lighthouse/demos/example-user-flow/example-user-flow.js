@@ -17,20 +17,21 @@
  */
 
 import { writeFileSync } from 'fs';
-import puppeteer from 'puppeteer';
-import * as pptrTestingLibrary from 'pptr-testing-library';
-import { startFlow, desktopConfig } from 'lighthouse';
 
-const { getDocument, queries } = pptrTestingLibrary;
+import puppeteer from 'puppeteer';
+import { startFlow, desktopConfig } from 'lighthouse';
 
 // Setup the browser and Lighthouse.
 console.log('Starting Puppeteer browser ...');
 const browser = await puppeteer.launch({
-  headless: 'new',
+  headless: 'false',
 });
+
+// Setup page with a specific size
 const page = await browser.newPage();
+
+// Setup Puppeteer Testing Library for desktop
 const flow = await startFlow(page, {
-  // If Puppeteer is emulating a mobile device then we can remove the next line.
   config: desktopConfig,
   flags: { screenEmulation: { disabled: true } },
 });
@@ -39,48 +40,54 @@ const flow = await startFlow(page, {
 console.log('# Navigate to page ...');
 await flow.navigate('https://google.github.io/coding-with-chrome/?home');
 
-// Click the Game Editor Button
+// Click the Game Editor Button and wait for the game editor page.
 console.log('# Click on Game Editor Button');
 await flow.startTimespan();
-async () => {
-  const button = await page.waitForSelector('a[href="#/game_editor"]');
-  await button.click();
-  await button.dispose();
-  await page.waitForNavigation();
-};
+await page.waitForSelector('a[href="#/game_editor"]');
+await page.evaluate(() => {
+  const button = document.querySelector('a[href="#/game_editor"]');
+  button.click();
+});
+await page.waitForSelector(
+  'button[data-file="assets/examples/phaser/Bouncing Ball.xml"]'
+);
 await flow.endTimespan();
 
-// Navigate to game editor page
-console.log('# Navigate to game editor page ...');
-await flow.navigate(
-  'https://google.github.io/coding-with-chrome/#/game_editor'
-);
+// Navigate to game editor page to capture the full page load.
+console.log('# Full navigate to game editor page:' + page.url());
+await flow.navigate(page.url());
 
-// Capture snapshot
-console.log('# Snapshot ...');
-await flow.snapshot();
-
-// Click the Game Editor Button
+// Load the example file and wait for the Blockly editor to be ready.
 console.log('# Click on Example File Button');
 await flow.startTimespan();
-async () => {
-  const button = await page.waitForSelector(
+await page.evaluate(() => {
+  const button = document.querySelector(
     'button[data-file="assets/examples/phaser/Bouncing Ball.xml"]'
   );
-  await button.click();
-  await button.dispose();
-  await page.waitForNavigation();
-};
+  button.click();
+});
+await page.waitForSelector('.blocklyWidgetDiv');
 await flow.endTimespan();
 
-// Get the comprehensive flow report.
+// Capture snapshot after the editor is ready.
+console.log('# 1. Snapshot of running demo ...');
+await flow.snapshot();
+
+// Navigate to game editor page to capture the full page load.
+console.log('# Full navigate to running demo: ' + page.url());
+await flow.navigate(page.url());
+
+// Capture snapshot after the editor is ready.
+console.log('# 2. Snapshot of running demo ...');
+await flow.snapshot();
+
+// Store the report and flow result.
 console.log('Writing report and flow result to result/ ...');
 writeFileSync('result/report.html', await flow.generateReport());
-// Save results as JSON.
 writeFileSync(
   'result/flow-result.json',
   JSON.stringify(await flow.createFlowResult(), null, 2)
 );
 
-// Cleanup.
+// Cleanup and close browser.
 await browser.close();
