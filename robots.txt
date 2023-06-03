@@ -1,0 +1,5 @@
+# Disallow google crawlers because this is just a test site
+
+User-agent: Mediapartners-Google
+User-agent: Googlebot
+Disallow: /
