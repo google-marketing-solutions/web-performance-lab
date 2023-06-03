@@ -59,6 +59,10 @@ footer a:hover {
   text-decoration: underline;
 }
 
+#consentPopup {
+  display: none;
+}
+
 @keyframes gradientAnimation {
   0% {
     background-position: 0 10%;

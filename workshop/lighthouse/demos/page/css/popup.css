@@ -18,6 +18,7 @@
 
 /* CSS styles for the consent popup */
 #consentPopup {
+  display: block;
   position: fixed;
   top: 50%;
   left: 50%;

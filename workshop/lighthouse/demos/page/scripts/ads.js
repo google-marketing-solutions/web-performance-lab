@@ -18,9 +18,13 @@
 
 // JavaScript code for injecting ads
 document.addEventListener('DOMContentLoaded', function () {
-  const adsContainer1 = document.getElementById('adsContainer1');
-  adsContainer1.innerHTML = `<div class="ads">Advertisement<hr>Page speed so fast, it'll make your head spin!</div>`;
+  window.setTimeout(() => {
+    const adsContainer1 = document.getElementById('adsContainer1');
+    adsContainer1.innerHTML = `<div class="ads">Advertisement<hr>Page speed so fast, it'll make your head spin!</div>`;
+  }, 250);
 
-  const adsContainer2 = document.getElementById('adsContainer2');
-  adsContainer2.innerHTML = `<div class="ads">Advertisement<hr>Slow pages, no more! Experience the speed galore!</div>`;
+  window.setTimeout(() => {
+    const adsContainer2 = document.getElementById('adsContainer2');
+    adsContainer2.innerHTML = `<div class="ads">Advertisement<hr>Slow pages, no more! Experience the speed galore!</div>`;
+  }, 500);
 });
