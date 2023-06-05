@@ -1,0 +1,13 @@
+{
+  "ci": {
+    "collect": {
+      "url": "https://developers.google.com/"
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["warn", { "minScore": 0.1 }],
+        "categories:accessibility": ["error", { "minScore": 0.1 }]
+      }
+    }
+  }
+}

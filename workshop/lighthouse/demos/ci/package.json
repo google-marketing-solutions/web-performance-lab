@@ -1,0 +1,13 @@
+{
+  "author": "Markus Bordihn (mbordihn@google.com)",
+  "dependencies": {
+    "@lhci/cli": "^0.12.0"
+  },
+  "scripts": {
+    "example:assert_failed": "lhci autorun --config=./assert_failed_lighthouse.json",
+    "example:assert_ok": "lhci autorun --config=./assert_ok_lighthouse.json",
+    "example:multi_page": "lhci autorun --config=./multi_page_lighthouse.json",
+    "example:single_page": "lhci autorun --config=./single_page_lighthouse.json",
+    "upgrade": "git pull && npx npm-upgrade && npm install && npm update && npm prune && npm audit fix"
+  }
+}
