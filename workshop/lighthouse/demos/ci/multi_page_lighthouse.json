@@ -1,0 +1,15 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "https://google.github.io/coding-with-chrome/",
+        "https://google.github.io/coding-with-chrome/#/desktop",
+        "https://google.github.io/coding-with-chrome/#/game_editor"
+      ],
+      "numberOfRuns": 1
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

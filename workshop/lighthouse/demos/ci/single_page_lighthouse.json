@@ -1,0 +1,10 @@
+{
+  "ci": {
+    "collect": {
+      "url": "https://google.github.io/coding-with-chrome/"
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
