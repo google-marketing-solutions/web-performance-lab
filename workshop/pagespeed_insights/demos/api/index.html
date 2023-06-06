@@ -18,102 +18,141 @@
   Author: mbordihn@google.com (Markus Bordihn)
 -->
   <head>
-    <title>PageSpeed Insights API demo</title>
+    <title>PageSpeed Insights API Demo</title>
   </head>
   <body>
-    <h1>PageSpeed Insights API demo</h1>
+    <h1>PageSpeed Insights API Demo</h1>
     <p>Please wait page is loading ...</p>
     <script>
-      function run() {
-        console.log('Getting PageSpeed Insights Data ...');
-        const url = setUpQuery();
-        fetch(url)
-          .then((response) => response.json())
-          .then((json) => {
-            // See https://developers.google.com/speed/docs/insights/v5/reference/pagespeedapi/runpagespeed#response
-            // to learn more about each of the properties in the response object.
-            console.log('Received data:', json);
-            showInitialContent(json.id);
-            const cruxMetrics = {
-              'First Contentful Paint':
-                json.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS
-                  .category,
-              'First Input Delay':
-                json.loadingExperience.metrics.FIRST_INPUT_DELAY_MS.category,
-            };
-            showCruxContent(cruxMetrics);
-            const lighthouse = json.lighthouseResult;
-            const lighthouseMetrics = {
-              'First Contentful Paint':
-                lighthouse.audits['first-contentful-paint'].displayValue,
-              'Speed Index': lighthouse.audits['speed-index'].displayValue,
-              'Time To Interactive':
-                lighthouse.audits['interactive'].displayValue,
-              'First Meaningful Paint':
-                lighthouse.audits['first-meaningful-paint'].displayValue,
-            };
-            showLighthouseContent(lighthouseMetrics);
-            showOriginLoadingExperience(json.originLoadingExperience.metrics);
-          });
-      }
-
-      function setUpQuery() {
-        const api =
-          'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
-        const parameters = {
-          url: encodeURIComponent('https://developers.google.com'),
-        };
-        let query = `${api}?`;
-        for (key in parameters) {
-          query += `${key}=${parameters[key]}`;
+      class PageSpeedInsights {
+        /**
+         * @constructor
+         */
+        constructor() {
+          this.api =
+            'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+          this.parameters = {
+            url: encodeURIComponent('https://developers.google.com'),
+          };
         }
-        return query;
-      }
 
-      function showInitialContent(id) {
-        document.body.innerHTML = '';
-        const title = document.createElement('h1');
-        title.textContent = 'PageSpeed Insights API Demo';
-        document.body.appendChild(title);
-        const page = document.createElement('p');
-        page.textContent = `Page tested: ${id}`;
-        document.body.appendChild(page);
-      }
+        /**
+         * Run PageSpeed Insights.
+         */
+        run() {
+          console.log('Getting PageSpeed Insights Data ...');
+          const url = this.setUpQuery();
+          fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+              console.log('Received data:', json);
 
-      function showCruxContent(cruxMetrics) {
-        const cruxHeader = document.createElement('h2');
-        cruxHeader.textContent = 'Chrome User Experience Report Results';
-        document.body.appendChild(cruxHeader);
-        for (key in cruxMetrics) {
-          const p = document.createElement('p');
-          p.textContent = `${key}: ${cruxMetrics[key]}`;
-          document.body.appendChild(p);
+              // Initial content.
+              console.log('Showing initial content ...');
+              this.showInitialContent(json.id);
+
+              // CrUX metrics.
+              console.log('Showing CrUX content ...');
+              const cruxMetrics = {
+                'First Contentful Paint':
+                  json.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS
+                    .category,
+                'First Input Delay':
+                  json.loadingExperience.metrics.FIRST_INPUT_DELAY_MS.category,
+                'Interaction to next Paint (experimental)':
+                  json.loadingExperience.metrics
+                    .EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT.category,
+              };
+              this.showCruxContent(cruxMetrics);
+
+              // Lighthouse metrics.
+              console.log('Showing Lighthouse content ...');
+              const lighthouse = json.lighthouseResult;
+              const lighthouseMetrics = {
+                'First Contentful Paint':
+                  lighthouse.audits['first-contentful-paint'].displayValue,
+                'Speed Index': lighthouse.audits['speed-index'].displayValue,
+                'Time To Interactive':
+                  lighthouse.audits['interactive'].displayValue,
+                'First Meaningful Paint':
+                  lighthouse.audits['first-meaningful-paint'].displayValue,
+              };
+              this.showLighthouseContent(lighthouseMetrics);
+
+              // Origin Loading Experience metrics.
+              console.log('Showing Origin Loading Experience content ...');
+              this.showOriginLoadingExperience(
+                json.originLoadingExperience.metrics
+              );
+            });
+        }
+
+        setUpQuery() {
+          let query = `${this.api}?`;
+          for (const key in this.parameters) {
+            query += `${key}=${this.parameters[key]}`;
+          }
+          return query;
+        }
+
+        /**
+         * @param {string} id
+         */
+        showInitialContent(id) {
+          document.body.innerHTML = '';
+          const title = document.createElement('h1');
+          title.textContent = 'PageSpeed Insights API Demo';
+          document.body.appendChild(title);
+          const page = document.createElement('p');
+          page.textContent = `Page tested: ${id}`;
+          document.body.appendChild(page);
+        }
+
+        /**
+         * @param {Object} metrics
+         */
+        showCruxContent(metrics) {
+          const header = document.createElement('h2');
+          header.textContent = 'Chrome User Experience Report Results';
+          document.body.appendChild(header);
+          for (const key in metrics) {
+            const p = document.createElement('p');
+            p.textContent = `${key}: ${metrics[key]}`;
+            document.body.appendChild(p);
+          }
+        }
+
+        /**
+         * @param {Object} metrics
+         */
+        showLighthouseContent(metrics) {
+          const header = document.createElement('h2');
+          header.textContent = 'Lighthouse Results';
+          document.body.appendChild(header);
+          for (const key in metrics) {
+            const p = document.createElement('p');
+            p.textContent = `${key}: ${metrics[key]}`;
+            document.body.appendChild(p);
+          }
+        }
+
+        /**
+         * @param {Object} metrics
+         */
+        showOriginLoadingExperience(metrics) {
+          const header = document.createElement('h2');
+          header.textContent = 'Origin Loading Experience';
+          document.body.appendChild(header);
+          for (const key in metrics) {
+            const p = document.createElement('p');
+            p.textContent = `${key}: ${metrics[key].category}`;
+            document.body.appendChild(p);
+          }
         }
       }
 
-      function showLighthouseContent(lighthouseMetrics) {
-        const lighthouseHeader = document.createElement('h2');
-        lighthouseHeader.textContent = 'Lighthouse Results';
-        document.body.appendChild(lighthouseHeader);
-        for (key in lighthouseMetrics) {
-          const p = document.createElement('p');
-          p.textContent = `${key}: ${lighthouseMetrics[key]}`;
-          document.body.appendChild(p);
-        }
-      }
-
-      function showOriginLoadingExperience(metrics) {
-        const header = document.createElement('h2');
-        header.textContent = 'Origin Loading Experience';
-        document.body.appendChild(header);
-        for (key in metrics) {
-          const p = document.createElement('p');
-          p.textContent = `${key}: ${metrics[key].category}`;
-          document.body.appendChild(p);
-        }
-      }
-
-      run();
+      // Run PageSpeed Insights.
+      new PageSpeedInsights().run();
     </script>
   </body>
 </html>
