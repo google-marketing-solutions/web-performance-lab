@@ -1,0 +1,64 @@
+{
+  "record": {
+    "key": {
+      "formFactor": "PHONE",
+      "origin": "https://developer.chrome.com"
+    },
+    "metrics": {
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.70235467255334783
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.21081677704194254
+          },
+          {
+            "start": 1800,
+            "density": 0.086828550404709534
+          }
+        ],
+        "percentiles": {
+          "p75": 920
+        }
+      },
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.88356598984771573
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.077728426395939076
+          },
+          {
+            "start": 4000,
+            "density": 0.0387055837563452
+          }
+        ],
+        "percentiles": {
+          "p75": 1686
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2023,
+        "month": 5,
+        "day": 7
+      },
+      "lastDate": {
+        "year": 2023,
+        "month": 6,
+        "day": 3
+      }
+    }
+  }
+}
