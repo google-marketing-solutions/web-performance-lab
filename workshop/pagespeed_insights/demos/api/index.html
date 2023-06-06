@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--
+  @license Copyright 2023 Google Inc. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Author: mbordihn@google.com (Markus Bordihn)
+-->
+  <head>
+    <title>PageSpeed Insights API Demo</title>
+  </head>
+  <body>
+    <h1>PageSpeed Insights API Demo</h1>
+    <p>Please wait page is loading ...</p>
+    <script>
+      class PageSpeedInsights {
+        /**
+         * @constructor
+         */
+        constructor() {
+          this.api =
+            'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
+          this.parameters = {
+            url: encodeURIComponent('https://developers.google.com'),
+          };
+        }
+
+        /**
+         * Run PageSpeed Insights.
+         */
+        run() {
+          console.log('Getting PageSpeed Insights Data ...');
+          const url = this.setUpQuery();
+          fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+              console.log('Received data:', json);
+
+              // Initial content.
+              console.log('Showing initial content ...');
+              this.showInitialContent(json.id);
+
+              // CrUX metrics.
+              console.log('Showing CrUX content ...');
+              const cruxMetrics = {
+                'First Contentful Paint':
+                  json.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS
+                    .category,
+                'First Input Delay':
+                  json.loadingExperience.metrics.FIRST_INPUT_DELAY_MS.category,
+                'Interaction to next Paint (experimental)':
+                  json.loadingExperience.metrics
+                    .EXPERIMENTAL_INTERACTION_TO_NEXT_PAINT.category,
+              };
+              this.showCruxContent(cruxMetrics);
+
+              // Lighthouse metrics.
+              console.log('Showing Lighthouse content ...');
+              const lighthouse = json.lighthouseResult;
+              const lighthouseMetrics = {
+                'First Contentful Paint':
+                  lighthouse.audits['first-contentful-paint'].displayValue,
+                'Speed Index': lighthouse.audits['speed-index'].displayValue,
+                'Time To Interactive':
+                  lighthouse.audits['interactive'].displayValue,
+                'First Meaningful Paint':
+                  lighthouse.audits['first-meaningful-paint'].displayValue,
+              };
+              this.showLighthouseContent(lighthouseMetrics);
+
+              // Origin Loading Experience metrics.
+              console.log('Showing Origin Loading Experience content ...');
+              this.showOriginLoadingExperience(
+                json.originLoadingExperience.metrics
+              );
+            });
+        }
+
+        setUpQuery() {
+          let query = `${this.api}?`;
+          for (const key in this.parameters) {
+            query += `${key}=${this.parameters[key]}`;
+          }
+          return query;
+        }
+
+        /**
+         * @param {string} id
+         */
+        showInitialContent(id) {
+          document.body.innerHTML = '';
+          const title = document.createElement('h1');
+          title.textContent = 'PageSpeed Insights API Demo';
+          document.body.appendChild(title);
+          const page = document.createElement('p');
+          page.textContent = `Page tested: ${id}`;
+          document.body.appendChild(page);
+        }
+
+        /**
+         * @param {Object} metrics
+         */
+        showCruxContent(metrics) {
+          const header = document.createElement('h2');
+          header.textContent = 'Chrome User Experience Report Results';
+          document.body.appendChild(header);
+          for (const key in metrics) {
+            const p = document.createElement('p');
+            p.textContent = `${key}: ${metrics[key]}`;
+            document.body.appendChild(p);
+          }
+        }
+
+        /**
+         * @param {Object} metrics
+         */
+        showLighthouseContent(metrics) {
+          const header = document.createElement('h2');
+          header.textContent = 'Lighthouse Results';
+          document.body.appendChild(header);
+          for (const key in metrics) {
+            const p = document.createElement('p');
+            p.textContent = `${key}: ${metrics[key]}`;
+            document.body.appendChild(p);
+          }
+        }
+
+        /**
+         * @param {Object} metrics
+         */
+        showOriginLoadingExperience(metrics) {
+          const header = document.createElement('h2');
+          header.textContent = 'Origin Loading Experience';
+          document.body.appendChild(header);
+          for (const key in metrics) {
+            const p = document.createElement('p');
+            p.textContent = `${key}: ${metrics[key].category}`;
+            document.body.appendChild(p);
+          }
+        }
+      }
+
+      // Run PageSpeed Insights.
+      new PageSpeedInsights().run();
+    </script>
+  </body>
+</html>
