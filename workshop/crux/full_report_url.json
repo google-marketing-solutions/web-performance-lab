@@ -1,0 +1,168 @@
+{
+  "record": {
+    "key": {
+      "url": "https://developers.google.com/products"
+    },
+    "metrics": {
+      "interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.48124812481248136
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.33883388338833892
+          },
+          {
+            "start": 500,
+            "density": 0.17991799179917983
+          }
+        ],
+        "percentiles": {
+          "p75": 403
+        }
+      },
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.70937562537522414
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.17145287172303358
+          },
+          {
+            "start": 4000,
+            "density": 0.11917150290174222
+          }
+        ],
+        "percentiles": {
+          "p75": 2742
+        }
+      },
+      "cumulative_layout_shift": {
+        "histogram": [
+          {
+            "start": "0.00",
+            "end": "0.10",
+            "density": 0.6980396079215847
+          },
+          {
+            "start": "0.10",
+            "end": "0.25",
+            "density": 0.13312662532506508
+          },
+          {
+            "start": "0.25",
+            "density": 0.16883376675335018
+          }
+        ],
+        "percentiles": {
+          "p75": "0.14"
+        }
+      },
+      "experimental_interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.48124812481248136
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.33883388338833892
+          },
+          {
+            "start": 500,
+            "density": 0.17991799179917983
+          }
+        ],
+        "percentiles": {
+          "p75": 403
+        }
+      },
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.31165582791395707
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.5680840420210107
+          },
+          {
+            "start": 1800,
+            "density": 0.12026013006503233
+          }
+        ],
+        "percentiles": {
+          "p75": 1430
+        }
+      },
+      "first_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 1800,
+            "density": 0.62438682550805891
+          },
+          {
+            "start": 1800,
+            "end": 3000,
+            "density": 0.26769446391030133
+          },
+          {
+            "start": 3000,
+            "density": 0.10791871058163972
+          }
+        ],
+        "percentiles": {
+          "p75": 2197
+        }
+      },
+      "first_input_delay": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 100,
+            "density": 0.82113577284543093
+          },
+          {
+            "start": 100,
+            "end": 300,
+            "density": 0.084883023395320945
+          },
+          {
+            "start": 300,
+            "density": 0.093981203759248066
+          }
+        ],
+        "percentiles": {
+          "p75": 65
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2023,
+        "month": 5,
+        "day": 7
+      },
+      "lastDate": {
+        "year": 2023,
+        "month": 6,
+        "day": 3
+      }
+    }
+  }
+}
