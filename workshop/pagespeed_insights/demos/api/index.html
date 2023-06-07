@@ -19,20 +19,38 @@
 -->
   <head>
     <title>PageSpeed Insights API Demo</title>
+    <style>
+      .error {
+        color: red;
+      }
+    </style>
   </head>
   <body>
     <h1>PageSpeed Insights API Demo</h1>
-    <p>Please wait page is loading ...</p>
+    <p>
+      This is a demo for the PageSpeed Insights API.<br />
+      Please enter a URL and click on the "Run" button.<br />
+      After the data is loaded, you will see the results for the CrUX,
+      Lighthouse and Origin Loading Experience metrics.
+    </p>
+    <label for="urlInput">Enter URL:</label>
+    <input type="text" id="urlInput" value="https://example.org" />
+    <button
+      onclick="new PageSpeedInsights(document.getElementById('urlInput').value).run()"
+    >
+      Run
+    </button>
     <script>
       class PageSpeedInsights {
         /**
+         * @param {string} url
          * @constructor
          */
-        constructor() {
+        constructor(url) {
           this.api =
             'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
           this.parameters = {
-            url: encodeURIComponent('https://developers.google.com'),
+            url: encodeURIComponent(url),
           };
         }
 
@@ -40,12 +58,30 @@
          * Run PageSpeed Insights.
          */
         run() {
+          document.body.innerHTML = '';
+          const title = document.createElement('h1');
+          title.textContent = 'PageSpeed Insights API Demo';
+          document.body.appendChild(title);
+          const note = document.createElement('p');
+          note.textContent =
+            'Please wait until the data is loaded. This can take up to 30 seconds ...';
+          document.body.appendChild(note);
           console.log('Getting PageSpeed Insights Data ...');
           const url = this.setUpQuery();
           fetch(url)
             .then((response) => response.json())
             .then((json) => {
               console.log('Received data:', json);
+
+              // Error handling.
+              if (json.error) {
+                console.error(json.error.message);
+                const errorMessage = document.createElement('p');
+                errorMessage.className = 'error';
+                errorMessage.textContent = `Error: ${json.error.message}`;
+                document.body.appendChild(errorMessage);
+                return;
+              }
 
               // Initial content.
               console.log('Showing initial content ...');
@@ -84,6 +120,12 @@
               this.showOriginLoadingExperience(
                 json.originLoadingExperience.metrics
               );
+            })
+            .catch((error) => {
+              const errorMessage = document.createElement('p');
+              errorMessage.className = 'error';
+              errorMessage.textContent = `Error: ${error}`;
+              document.body.appendChild(errorMessage);
             });
         }
 
@@ -99,10 +141,6 @@
          * @param {string} id
          */
         showInitialContent(id) {
-          document.body.innerHTML = '';
-          const title = document.createElement('h1');
-          title.textContent = 'PageSpeed Insights API Demo';
-          document.body.appendChild(title);
           const page = document.createElement('p');
           page.textContent = `Page tested: ${id}`;
           document.body.appendChild(page);
@@ -150,9 +188,6 @@
           }
         }
       }
-
-      // Run PageSpeed Insights.
-      new PageSpeedInsights().run();
     </script>
   </body>
 </html>
