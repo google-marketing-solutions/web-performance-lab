@@ -1,7 +1,7 @@
 {
-  "name": "glitch-hello-node",
+  "name": "speed-games-ams",
   "version": "0.1.0",
-  "description": "A simple Node app built on fastify, instantly up and running. Built to be remixed on Glitch.com.",
+  "description": "An example of a website filled with unoptimized code. Meant to be used during training to improve and apply best practices.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -17,7 +17,7 @@
     "node": "14.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/glitch-hello-node"
+    "url": "https://glitch.com/edit/#!/speed-games-ams"
   },
   "license": "MIT",
   "keywords": [
