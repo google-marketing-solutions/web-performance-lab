@@ -1,0 +1,27 @@
+{
+  "name": "speed-games",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx esbuild scripts/index.js --bundle --outdir=dist",
+    "build-watch": "npx esbuild scripts/index.js --bundle --outdir=dist --watch",
+    "server": " http-server -c-1 -p 0 -a localhost",
+    "start": "npm run build && npm run server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@yuigoto/infiniship-js": "^1.0.0",
+    "confetti-js": "^0.0.18",
+    "csv-parse": "^5.3.4",
+    "js-confetti": "^0.11.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "esbuild": "^0.17.5",
+    "http-server": "^14.1.1"
+  }
+}

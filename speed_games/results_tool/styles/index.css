@@ -1,0 +1,212 @@
+        body {
+            background: url("assets/space-background-pink.png");
+            background-color: #444;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            -webkit-font-smoothing: none;
+        }
+
+        input {
+            width: 25vw;
+            height: 25vh;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+        }
+
+        #player-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .player-item {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 10px 15px;
+        }
+
+        .player-item .name {
+            font-weight: 800;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .player-item .url {
+            margin-top: 10px;
+            font-weight: 800;
+            font-size: 10px;
+            /* max-width: 100px; */
+            opacity: 0.7;
+        }
+
+        .player-item .index {
+            font-weight: 800;
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            font-size: 64px;
+            text-align: center;
+        }
+
+        .players-title {
+            font-size: 32px;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .press {
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            z-index: 5;
+            opacity: 0.5;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .background-title {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.3;
+            z-index: 5;
+            font-size: 48px;
+            text-align: center;
+        }
+
+        .ship {
+            image-rendering: pixelated;
+            position: absolute;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            border-radius: 100%;
+            box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.75);
+            background-color: rgba(0, 0, 0, 0.75);
+            animation: ship-anim .5s infinite;
+        }
+
+        .ship p {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            margin: 0;
+            transform: translate(-50%, 0%);
+        }
+
+
+        .line {
+            height: 20px;
+            width: 90vw;
+            position: absolute;
+            top: 0;
+            left: 5vw;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.75) !important;
+            display: none;
+        }
+
+        #end-line {
+            background: red;
+            top: 5vh;
+        }
+
+        #start-line {
+            top: calc(95vh - 20px);
+            background: green;
+        }
+
+        .leaderboard {
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 25px;
+            padding: 25px;
+            position: absolute;
+            bottom: 5vh;
+            left: 5vw;
+            width: 85vw;
+        }
+
+        .leaderboard .header {
+            color: white;
+        }
+
+
+        .leaderboard .item {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .leaderboard .item p {
+            display: inline-block;
+            font-size: 12px;
+        }
+
+        .leaderboard .item .place {
+            font-size: 18px;
+        }
+
+        .leaderboard .item .index {
+            font-weight: 800;
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .leaderboard .item .value {
+            font-size: 16px;
+        }
+
+        @keyframes ship-anim {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(10px, 0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(0, 0) rotate(0eg);
+            }
+
+            75% {
+                transform: translate(-10px, -0px) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
