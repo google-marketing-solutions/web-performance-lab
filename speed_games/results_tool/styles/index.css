@@ -16,7 +16,7 @@
 * @author ghys@google.com (Lou Ghys) */
 
 body {
-    background: url("assets/space-background-pink.png");
+    background: url("../assets/space-background-pink.png");
     background-color: #444;
     background-repeat: no-repeat;
     background-size: cover;

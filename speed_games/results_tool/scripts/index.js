@@ -22,6 +22,8 @@ import mean from 'lodash/fp/mean'
 import JSConfetti from 'js-confetti'
 import CANDIDATES_NAMES_MAP from '../config'
 import runCountdown from './libraries/countdown'
+import { parse as parseCSV } from 'papaparse'
+
 
 const CONFIG = {
     SETTINGS: {
@@ -179,7 +181,7 @@ const runScene = (settings, candidates) => {
 }
 
 document.querySelector("#input").addEventListener("input", (event) => {
-    Papa.parse(event.target.files[0], {
+    parseCSV(event.target.files[0], {
         header: true,
         complete: inputCallback
     });
@@ -219,10 +221,7 @@ const setup = () => {
     document.querySelector('#player-scene').style.display = 'none'
 }
 
-window.addEventListener('keyup', keyboardEventHandler)
-
-const keyboardEventHandler = (event) => {
-
+window.addEventListener('keyup', (event) => {
     const isConfettitDebugKey = event.key === 'c';
     const isSpacebarKey = event.code === 'Space'
     const isSceneSelectionKey = event.code !== 'Space' && Number(event.key) <= CONFIG.SCENES.length
@@ -256,7 +255,7 @@ const keyboardEventHandler = (event) => {
             runScene({ title: scene.title, callback: () => { } }, candidates);
         }, 5000);
     }
-}
+})
 
 const getCandidates = () => {
     const scene = CONFIG.SCENES[globalVariables.selectedSceneIndex]
