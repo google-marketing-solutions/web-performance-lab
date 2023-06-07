@@ -14,3 +14,7 @@ It shows that lazy-loaded images are not pre-loaded in parallel and highlights t
 
 [inject_image.html](inject_image.html) illustrates the impact of dynamically injecting elements, like images via JavaScript, on the preload scanner.
 It reveals that dynamically injected images are not detected by the preload scanner and are not pre-loaded in parallel with other resources.
+
+## Further Reading
+
+- [Preload Scanner Documentation](https://web.dev/preload-scanner/)
