@@ -1,8 +1,27 @@
+/**
+ * @license Copyright 2023 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author ghys@google.com (Lou Ghys)
+ */
+
 import Infiniship from "@yuigoto/infiniship-js";
 import sortBy from 'lodash/fp/sortBy'
 import mean from 'lodash/fp/mean'
 import JSConfetti from 'js-confetti'
 import CANDIDATES_NAMES_MAP from '../config'
+import runCountdown from './libraries/countdown'
 
 const CONFIG = {
     SETTINGS: {
@@ -192,47 +211,6 @@ const inputCallback = (raw) => {
     displayAndSetPlayers();
 }
 
-//https://codepen.io/FlorinPop17/pen/LzYNWa
-const runCountdown = (callback) => {
-    document.querySelector('#counter-scene').style.display = 'block';
-    document.querySelector('#scene').style.display = 'none'
-    document.querySelector('#input-scene').style.display = 'none'
-    document.querySelector('#waiting-scene').style.display = 'none'
-
-    const nums = document.querySelectorAll('.nums span');
-    const counter = document.querySelector('.counter');
-    const finalMessage = document.querySelector('.final');
-
-    function resetDOM() {
-        counter.classList.remove('hide');
-        finalMessage.classList.remove('show');
-
-        nums.forEach(num => {
-            num.classList.value = '';
-        });
-        nums[0].classList.add('in');
-    }
-
-    resetDOM();
-    runAnimation();
-
-    function runAnimation() {
-        nums.forEach((num, idx) => {
-            const penultimate = nums.length - 1;
-            num.addEventListener('animationend', (e) => {
-                if (e.animationName === 'goIn' && idx !== penultimate) {
-                    num.classList.remove('in');
-                    num.classList.add('out');
-                } else if (e.animationName === 'goOut' && num.nextElementSibling) {
-                    num.nextElementSibling.classList.add('in');
-                } else {
-                    counter.classList.add('hide');
-                    finalMessage.classList.add('show');
-                }
-            });
-        });
-    }
-}
 
 const setup = () => {
     document.querySelector('#counter-scene').style.display = 'none'
