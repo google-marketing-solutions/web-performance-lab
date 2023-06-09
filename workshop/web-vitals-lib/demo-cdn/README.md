@@ -16,12 +16,6 @@ To install the required dependencies, simply run the following command: `npm ins
 
 This command will automatically fetch and install all the necessary dependencies listed in the project's package.json file. Make sure you run this command in the root directory of your project.
 
-## Run the demo
-
-To run the demo you need to perform a build run. Simply run the following command: `npm run build`
-
-This command will compile the code with browserify and esmify - which are already included as dependencies - and store a bundle file in the files-folder.
-
 ## Further Reading
 
 - [Web Vitals Library Documentation](https://github.com/GoogleChrome/web-vitals)
