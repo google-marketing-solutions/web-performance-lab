@@ -19,7 +19,6 @@
 import {onLCP, onFID, onCLS} from 'web-vitals';
 
 function sendToDataLayer({name, delta, value, id}) {
-    // Make sure the global dataLayer object exists
     dataLayer.push({
       // Make sure to push an event key for the listener in GTM
       event: 'coreWebVitals',
