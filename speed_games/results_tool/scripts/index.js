@@ -18,12 +18,10 @@
 
 import Infiniship from "@yuigoto/infiniship-js";
 import sortBy from 'lodash/fp/sortBy'
-import mean from 'lodash/fp/mean'
 import JSConfetti from 'js-confetti'
 import CANDIDATES_NAMES_MAP from '../config'
 import runCountdown from './libraries/countdown'
 import { parse as parseCSV } from 'papaparse'
-
 
 const CONFIG = {
     SETTINGS: {
@@ -72,7 +70,8 @@ const globalVariables = {
 
 const HELPER_FUNCTIONS = {
     randomBetween: (min, max) => (Math.random() * (max - min) + min).toFixed(4),
-    randomColor: () => `#${Math.floor(Math.random() * 16777215).toString(16)}`
+    randomColor: () => `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+    median: (array) => { array.sort((a, b) => b - a); const length = array.length; if (length % 2 == 0) { return (arr[length / 2] + arr[(length / 2) - 1]) / 2; } else { return array[Math.floor(length / 2)]; } }
 }
 
 const displayAndSetPlayers = () => {
@@ -188,8 +187,6 @@ document.querySelector("#input").addEventListener("input", (event) => {
 })
 
 const inputCallback = (raw) => {
-    const data = raw.data
-    data.shift(); // remove header from data
     let result = {}
     raw.data.forEach(row => {
         const url = row['URL'];
@@ -263,7 +260,7 @@ const getCandidates = () => {
     Object.keys(globalVariables.globalInputData).forEach(rowKey => {
         let values = globalVariables.globalInputData[rowKey][scene.dataKey] ?? [];
         values = values.filter(x => !Number.isNaN(x) && Number(x) > 0)
-        let medianValue = values.length > 0 ? mean(values) : undefined;
+        let medianValue = values.length > 0 ? HELPER_FUNCTIONS.median(values) : undefined;
         if (medianValue !== undefined) {
             candidates[rowKey] = medianValue
         } else {
