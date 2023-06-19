@@ -1,0 +1,1389 @@
+<!--
+  Copyright 2023 Google LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--><!DOCTYPE html>
+<!--
+
+
+  NOTICE
+
+
+  If you come across this website:
+  Please note that this is a demo website used for the speed games event.
+
+  The implementations here are supposed to be inefficient / bad.
+
+  Do not copy any of the implementations from this file to your own pages as
+  this page is specifically designed to contain issues.
+
+  Check README for more info.
+
+
+
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Manjari|Lora|Noto+Sans+JP&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="./css/bootstrap-3.4.1.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"
+    />
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <script src="./js/third_party/jquery-1.9.1.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"
+    ></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.webticker/3.0.0/jquery.webticker.js"></script>
+     <link rel="Stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css"
+      />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css"
+      />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reading-time/2.0.0/readingTime.js"></script>
+
+
+    <script type="text/javascript">
+      var sibling_i = 0;
+      jQuery(function () {
+        jQuery("a").tooltip();
+        jQuery("img").tooltip();
+      });
+
+    </script>
+
+    <script src="./js/reading-time.js"></script>
+
+    <title>Your favourite local news paper</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/locales.js"></script>
+
+    <script
+      type="text/javascript"
+      src="https://platform-api.sharethis.com/js/sharethis.js#property=62cc109c987470001990b431&product=inline-share-buttons"
+      async="async"
+    ></script>
+
+    <script src="https://unpkg.com/lodash@4/lodash.min.js"></script>
+
+    <script>
+      /**
+       *  This script handles the ad loading of the page.
+       */
+        var FAILSAFE_TIMEOUT = 3000;
+
+        var in_article_sizes = [
+          [320, 320],
+          [300, 250],
+          'fluid'
+        ];
+
+        // Setup ads
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+
+        var sidebar_ad, leaderboard_ad, mobile_article1;
+        var article_ads = [];
+
+        jQuery.getScript("https://pagead2.googlesyndication.com/tag/js/gpt.js");
+        googletag.cmd.push(function () {
+        sidebar_ad = googletag
+          .defineSlot("/6353/ernberg/sidebar", [300, 600], "sidebar_ad")
+          .addService(googletag.pubads());
+        leaderboard_ad = googletag
+          .defineSlot("/6353/ernberg/leaderboard", [728, 90], "leaderboard_ad")
+          .addService(googletag.pubads());
+        var leaderBoardSizeMapping = googletag
+          .sizeMapping()
+          .addSize([0, 0], []) // Don't display unless desktop/tablet
+          .addSize([800, 0], [728, 90])
+          .build();
+        leaderboard_ad.defineSizeMapping(leaderBoardSizeMapping);
+        var sidebarSizeMapping = googletag
+          .sizeMapping()
+          .addSize([0, 0], []) // Don't display unless desktop/tablet
+          .addSize([500, 0], [300, 600])
+          .build();
+        sidebar_ad.defineSizeMapping(sidebarSizeMapping);
+
+        var article_sizeMapping = googletag
+          .sizeMapping()
+          .addSize([0, 0], [320, 50])
+          .addSize([500, 0], [[320, 320]])
+          .build();
+
+        for (var i = 25; i > 0; i--) {
+          article_ads[i] = googletag
+            .defineSlot("/6353/ernberg/article" + i, in_article_sizes, "article" + i)
+            .addService(googletag.pubads());
+        }
+        article_ads[1].defineSizeMapping(article_sizeMapping);
+        let isFirstAdRequest = true;
+
+        // DO NOT CHANGE / REMOVE this listener as it's used to determine when the first ad
+        // is requested.
+        googletag.pubads().addEventListener("slotRequested", function(){
+          if(isFirstAdRequest){
+            // DO NOT CHANGE / REMOVE this performance.mark()
+            performance.mark("gpt-ad-request");
+            console.log("First ad request time: ", Math.round(performance.now()))
+            isFirstAdRequest = false;
+          }
+        });
+        googletag.pubads().setPrivacySettings({nonPersonalizedAds: true})
+        googletag.pubads().set('adsense_test_mode', 'on');
+        googletag.pubads().disableInitialLoad();
+        googletag.enableServices();
+      });
+
+
+      function requestAds(){
+        googletag.cmd.push(function () {
+          googletag.pubads().refresh();
+        });
+      }
+
+
+      // Failsafe in case the audience-script doesn't load
+      setTimeout(function () {
+          requestAds();
+      }, FAILSAFE_TIMEOUT);
+
+    </script>
+    <script src="./js/audience-script.js"></script>
+  </head>
+  <body>
+    <script>
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: "foobar-app-id-not-really-real",
+          autoLogAppEvents: true,
+          xfbml: true,
+          version: "v14.0",
+        });
+      };
+    </script>
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js"
+    ></script>
+
+
+    <div id="subscribe_popup" style="postion:absolute; top:0; left:0;display: none">
+      <!-- Recaptcha used to protect the subscribe button from bots -->
+      <script src="https://www.google.com/recaptcha/api.js"></script>
+      Subscribe to the newsletter!
+      <div id="sign_up_popup" style="display:none;"></div>
+      <script src="./js/sign_up.js"></script>
+    </div>
+
+
+    <div id="root-container">
+      <header>
+        <h1>
+          <img src="https://cdn.glitch.global/2b3ca048-9bb8-4db4-b3bb-9c41d47d68b1/logotype.png?v=1657790230896" alt="Your favourite local news paper" title="Your favourite local news paper">
+          <span id="date"></span>
+          <script>
+            document.getElementById("date").innerText =
+              moment().locale("en").format("ddd D MMM");
+          </script>
+        </h1>
+        <div id="weather">
+          <a
+            class="weatherwidget-io"
+            href="https://forecast7.com/en/59d3318d07/stockholm/"
+            data-label_1="STOCKHOLM"
+            data-label_2="WEATHER"
+            data-days="3"
+            data-theme="retro-sky"
+            >STOCKHOLM WEATHER</a
+          >
+          <script src="https://weatherwidget.io/js/widget.min.js"></script>
+        </div>
+      </header>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <div class="navbar-brand hidden-md">
+              <a href="./">Your favourite local news paper</a>
+            </div>
+            <button
+              type="button"
+              class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div
+            class="collapse navbar-collapse"
+            id="bs-example-navbar-collapse-1"
+          >
+            <ul class="nav navbar-nav">
+              <li class="active">
+                <a href="#">News <span class="sr-only">(current)</span></a>
+              </li>
+              <li><a href="#">Finance</a></li>
+              <li class="dropdown">
+                <a
+                  href="#"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  >More topics <span class="caret"></span
+                ></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a
+                  href="#"
+                  class="dropdown-toggle"
+                  data-toggle="dropdown"
+                  role="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  >My Account <span class="caret"></span
+                ></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Logout</a></li>
+            </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+      </nav>
+      <div id="christmas_special">
+        <a href="?christmas_promo">
+          <img
+            src="https://cdn.glitch.global/2b3ca048-9bb8-4db4-b3bb-9c41d47d68b1/christmas_special.png"
+          />
+        </a>
+        <script>
+          /**
+           * Checks if today is christmas.
+           */
+          function isTodayChristmas() {
+            return (
+              new Date("2021-12-24").toDateString() ==
+                new Date().toDateString() ||
+              new Date("2021-12-25").toDateString() == new Date().toDateString()
+            );
+          }
+          if (isTodayChristmas()) {
+            document.getElementById("christmas_special").style.visibility =
+              "visible";
+          }
+        </script>
+      </div>
+
+      <div id="main-content">
+        <div id="sidebar">
+          <div id="sidebar_ad">
+            <script>
+              googletag.cmd.push(function () {
+                googletag.display("sidebar_ad");
+              });
+            </script>
+          </div>
+          <script>
+            $(document).ready(function () {
+              $(".owl-carousel").owlCarousel({
+                margin:10,
+                loop:true,
+                autoWidth:false,
+                items:2,
+                autoplay: true,
+                autoplayTimeout:2500
+              });
+            });
+            $(document).ready(function(){
+              $("h2").each(function(){
+                if($(this).text().includes("BREAKING!!!")){
+                  $(this).text($(this).text().replace("BREAKING!!!", ""));
+                  $(this).parent().prepend("<div class='breaking'><div class='inner'></div></div>");
+                  for(var i = 0; i < 3; i++){
+                    $(this).parent().find(".breaking .inner").append("<span>BREAKING</span>");
+                  }
+                  weHaveBreakingNews = true;
+                }
+              })
+              $(".breaking .inner").webTicker({
+                moving: true,
+                duplicate: true
+              });
+            });
+          </script>
+          <h3>
+            Latest news!
+          </h3>
+          <div class="owl-carousel">
+            <div>
+              <img
+                src="https://cdn.glitch.global/0d2636ce-23ed-4653-b1c8-0b67f4be7ef8/adrien-olichon-QRtym77B6xk-unsplash%20(1)%20(1).jpg?v=1675763949261"
+              />
+              news article 1
+            </div>
+            <div>
+
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Fjon-flobrant-unsplash-2.jpg"
+              />
+              news article 2
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Fjon-flobrant-unsplash-3.jpg"
+              />
+              news article 3
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+              />
+              news article 4
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+              />
+              news article 5
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+              />
+              news article 6
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+              />
+              news article 7
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+              />
+              news article 8
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+              />
+              news article 9
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+              />
+              news article 10
+            </div>
+            <div>
+              <img
+                src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+              />
+              news article 11
+            </div>
+          </div>
+          <a
+            class="twitter-timeline"
+            data-width="320"
+            data-height="500"
+            data-theme="light"
+            href="https://twitter.com/TwitterDev?ref_src=twsrc%5Etfw"
+            >Tweets by TwitterDev</a
+          >
+          <script
+            async
+            src="https://platform.twitter.com/widgets.js"
+            charset="utf-8"
+          ></script>
+        </div>
+        <main>
+          <div class="leaderboard_ad">
+            <div id="leaderboard_ad">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display(leaderboard_ad);
+                });
+              </script>
+            </div>
+          </div>
+<article id="news-article-1">
+            <h2>
+              <a href="#">A news headline that grabs your attention.</a>
+            </h2>
+            <a href="#"><img
+                 src="https://cdn.glitch.com/0d2636ce-23ed-4653-b1c8-0b67f4be7ef8/adrien-olichon-QRtym77B6xk-unsplash%20(1)%20(1).jpg"
+            /></a>
+            <div class="author">
+              <div class="card mb-1 align-right" style="max-width: 280px">
+                <div class="row g-0">
+                  <div class="col-xs-4">
+                    <img
+                      src="https://cdn.glitch.global/2b3ca048-9bb8-4db4-b3bb-9c41d47d68b1/pexels-photo-6065889.png?v=1656411583978"
+                      class="img-fluid rounded-start"
+                      alt="Mr. Author"
+                    />
+                  </div>
+                  <div class="col-xs-8">
+                    <div class="card-body">
+                      <h5 class="card-title">Author Authorson</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>
+              <a href="#" title="Read more"
+                >Short text to make you click into the article...</a
+              >
+            </p>
+            <div class="article_ad">
+              <div id="article1">
+                <script>
+                  googletag.cmd.push(function () {
+                    googletag.display("article1");
+                  });
+                </script>
+              </div>
+            </div>
+            <div class="sharethis-inline-share-buttons"></div>
+          </article>
+          <article>
+            <h2>BREAKING!!! News article 2</h2>
+            <div class="author">
+              <div class="card mb-1 align-right" style="max-width: 280px">
+                <div class="row g-0">
+                  <div class="col-xs-4">
+                    <img
+                      src="https://cdn.glitch.me/2b3ca048-9bb8-4db4-b3bb-9c41d47d68b1/author_2.png?v=1656413126910"
+                      class="img-fluid rounded-start"
+                      alt="Mr. Author"
+                    />
+                  </div>
+                  <div class="col-xs-8">
+                    <div class="card-body">
+                      <h5 class="card-title">Author Authorson</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <img
+              src="https://cdn.glitch.me/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Fjon-flobrant-unsplash-2.jpg"
+              width="576"
+              height="384"
+            />
+            <p>Lorem ipsum dolor sit amet</p>
+            <div id="article2">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article2");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div class="sharethis-inline-share-buttons"></div>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Fjon-flobrant-unsplash-3.jpg"
+            />
+            <h2>News article 3</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis.
+            </p>
+              <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/CWl6tDEMxEL/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/CWl6tDEMxEL/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Visa detta inlägg på Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/CWl6tDEMxEL/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Ett inlägg delat av Nori Beła (@topdognori)</a></p></div></blockquote> <script async src="//www.instagram.com/embed.js"></script>
+            <p>
+              Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/CfYXEcuNV9L/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/CfYXEcuNV9L/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Visa detta inlägg på Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/CfYXEcuNV9L/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Ett inlägg delat av Nori Beła (@topdognori)</a></p></div></blockquote> <script async src="//www.instagram.com/embed.js"></script>
+            <div id="article3">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article3");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div class="sharethis-inline-share-buttons"></div>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article4">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article4");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <h2>News article 5</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <h2>News article 6</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article5">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article5");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article6">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article6");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article7">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article7");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article8">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article8");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article9">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article9");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article10">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article10");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article11">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article11");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article12">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article12");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+          <article>
+            <img
+              src="https://cdn.glitch.com/26dc2fbd-2a0a-4ee0-9a14-cd5536c62f8b%2Ffelix-mooneeram-KPT_ZBs4xc4-unsplash.jpg"
+            />
+            <h2>News article 4</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              vel sollicitudin nibh, at tempor enim. Suspendisse et mauris in
+              ligula consequat ornare. Nulla posuere tempor egestas. Nulla
+              imperdiet sollicitudin enim, et venenatis justo viverra ac.
+              Maecenas maximus eget sem nec commodo. Quisque sodales egestas
+              diam eget pellentesque. Donec bibendum tempus risus vel pharetra.
+              Suspendisse rhoncus, metus in fringilla volutpat, velit dolor
+              fringilla lacus, sed mattis enim enim et turpis. Sed dictum
+              aliquam turpis, eu molestie odio eleifend quis. Ut erat mauris,
+              blandit ac tortor fermentum, euismod congue sapien. Pellentesque
+              nec nisl quis ipsum cursus sodales et eget tortor. Donec interdum
+              mollis nunc non feugiat. Suspendisse nisl eros, ultrices eu arcu
+              ac, vehicula accumsan neque.
+            </p>
+            <div id="article13">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article13");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article14">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article14");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article15">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article15");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article16">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article16");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article17">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article17");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article18">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article18");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article19">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article19");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article20">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article20");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article21">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article21");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article22">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article22");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article23">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article23");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article24">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article24");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+            <div id="article25">
+              <script>
+                googletag.cmd.push(function () {
+                  googletag.display("article25");
+                });
+              </script>
+            </div>
+            <p>
+              Aliquam dictum turpis vel leo pulvinar, ut tempor arcu faucibus.
+              Cras dictum sit amet mi quis placerat. Donec nec erat sed erat
+              vulputate aliquam. Nunc laoreet aliquet est, non commodo sapien
+              pretium eget. Vivamus vel tellus eget erat auctor scelerisque. In
+              sed placerat ex, sed faucibus massa. Duis rhoncus urna a ultrices
+              tempor. Sed venenatis ipsum et mi euismod fringilla. Quisque
+              cursus nulla id erat ultrices, a cursus dui luctus. Mauris porta
+              leo vitae dolor cursus, blandit imperdiet purus bibendum. Etiam
+              sem ligula, tincidunt ut rutrum nec, mattis et ante. Duis
+              convallis nibh ut vestibulum egestas. Nulla nulla mi, elementum et
+              est sed, volutpat pretium justo. In in justo nec sem maximus
+              imperdiet ut vel dui.
+            </p>
+          </article>
+
+        </main>
+      </div>
+      <footer>
+        Image credits: Photo by Jon Flobrant, Felix Mooneeram &amp; ian dooley
+        on Unsplash
+        <img src="https://cdn.glitch.global/2b3ca048-9bb8-4db4-b3bb-9c41d47d68b1/logotype.png?v=1657790230896" alt="Your favourite local news paper" title="Your favourite local news paper" width="256">
+      </footer>
+    </div>
+    <script>
+      // Measures LCP, keep it if you want or remove, not used in the competition
+      const observer = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        const lastEntry = entries[entries.length - 1]; // Use the latest LCP candidate
+        console.log("LCP candidate:", Math.round(lastEntry.startTime));
+        console.log(lastEntry);
+      });
+      observer.observe({ type: "largest-contentful-paint", buffered: true });
+    </script>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 # Chrome UX Report API
 
-The Chrome UX Report API lets you view real user experience data for millions of websites. With the API you can explore key user experience metrics for any origin, and also view user experience data for a single URL.
+The Chrome UX Report API lets you view real user experience data for millions of websites.
+With the API you can explore key user experience metrics for any origin, and also view user experience data for a single URL.
 
 ## Examples
 
@@ -44,3 +45,7 @@ Example command:
 `curl -s --request POST 'https://chromeuxreport.googleapis.com/v1/records:queryRecord?key=YOUR_API_KEY' --header 'Accept: application/json' --header 'Content-Type: application/json' --data '{"formFactor":"PHONE","origin":"https://developer.chrome.com","metrics":["largest_contentful_paint", "experimental_time_to_first_byte"]}'`
 
 [Example Output](mobile_lcp_ttfb_report.json)
+
+## Further Reading
+
+- [Chrome UX Report API Documentation](https://developers.google.com/web/tools/chrome-user-experience-report/api/reference)

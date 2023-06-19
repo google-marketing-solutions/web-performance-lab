@@ -1,0 +1,28 @@
+{
+  "name": "speed-games-ams",
+  "version": "0.1.0",
+  "description": "An example of a website filled with unoptimized code. Meant to be used during training to improve and apply best practices.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.12.0",
+    "@fastify/static": "^6.8.0",
+    "handlebars": "^4.7.7",
+    "@fastify/view": "^7.4.1",
+    "@fastify/compress": "^6.2.0"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/speed-games-ams"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}
