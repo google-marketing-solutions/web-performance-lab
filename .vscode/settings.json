@@ -7,6 +7,5 @@
     "pptr",
     "Timespan",
     "TTFB"
-  ],
-  "liveServer.settings.port": 5501
+  ]
 }
