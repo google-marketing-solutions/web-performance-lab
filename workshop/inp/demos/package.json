@@ -1,0 +1,10 @@
+{
+  "author": "Markus Bordihn (mbordihn@google.com)",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "scripts": {
+    "example": "http-server -o index.html",
+    "upgrade": "git pull && npx npm-upgrade && npm install && npm update && npm prune && npm audit fix"
+  }
+}
