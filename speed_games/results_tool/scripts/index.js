@@ -71,7 +71,11 @@ const globalVariables = {
 const HELPER_FUNCTIONS = {
     randomBetween: (min, max) => (Math.random() * (max - min) + min).toFixed(4),
     randomColor: () => `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-    median: (array) => { array.sort((a, b) => b - a); const length = array.length; if (length % 2 == 0) { return (arr[length / 2] + arr[(length / 2) - 1]) / 2; } else { return array[Math.floor(length / 2)]; } }
+    median: (array) => {
+        const mid = Math.floor(array.length / 2)
+        const sorted = [...array].sort((a, b) => a - b);
+        return array.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+    }
 }
 
 const displayAndSetPlayers = () => {
@@ -277,7 +281,7 @@ const getCandidates = () => {
             color: playerObject.color
         }
     })
-    arr = sortBy(x => x.index, arr)
+    arr = sortBy(x => Number(x.index), arr)
     return arr
 }
 
