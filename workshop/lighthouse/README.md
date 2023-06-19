@@ -12,6 +12,5 @@ You could access Lighthouse:
 ## Demos
 
 - [Example User Flow using Lighthouse and Puppeteer](./demos/example-user-flow/README.md)
-- [Page with Ads and Consent Popup](./demos/page/index.html)
 - [Lighthouse CI Demo](./demos/ci/README.md)
 - [Lighthouse CLI Demo](./demos/cli/README.md)
