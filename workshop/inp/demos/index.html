@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--
+  @license Copyright 2023 Google Inc. All Rights Reserved.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Author: mbordihn@google.com (Markus Bordihn)
+-->
+  <head>
+    <title>Interaction to Next Paint (INP) Demo</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="js/scripts.js"></script>
+  </head>
+  <body>
+    <h1>Interaction to Next Paint (INP) Demo</h1>
+    <p>
+      Interaction to Next Paint (INP) is a metric that measures the time it
+      takes for a web page to respond to user input and display the next visible
+      change on the screen.
+    </p>
+    <h2>Click Events</h2>
+    <p>
+      Click the button below to trigger an interaction and measure the time it
+      takes for the next paint event.
+    </p>
+    <button id="button_without_delay">without delay</button>
+    <button id="button_with_200_delay">with 200ms delay</button>
+    <button id="button_with_500_delay">with 500ms delay</button>
+    <button id="button_with_5000_delay">with 5000ms delay</button>
+    <div class="result" id="click_result"></div>
+
+    <h2>Input Events</h2>
+    <p>
+      Type something in the input field below to trigger an interaction and
+      measure the time it takes for the next paint event.
+    </p>
+    <label for="input_without_delay">without delay</label>
+    <input type="text" id="input_without_delay" value="" />
+
+    <label for="input_with_200_delay">with 200ms delay</label>
+    <input type="text" id="input_with_200_delay" value="" />
+
+    <label for="input_with_500_delay">with 500ms delay</label>
+    <input type="text" id="input_with_500_delay" value="" />
+
+    <label for="input_with_5000_delay">with 5000ms delay</label>
+    <input type="text" id="input_with_5000_delay" value="" />
+    <div class="result" id="text_input_result"></div>
+
+    <footer>
+      <p>
+        Source:
+        <a
+          href="https://github.com/gtech-professional-services/web-performance-lab"
+        >
+          Web Performance Lab</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>
