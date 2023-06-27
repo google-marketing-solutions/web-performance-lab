@@ -1,0 +1,167 @@
+{
+  "record": {
+    "key": {
+      "formFactor": "TABLET",
+      "origin": "https://example.com"
+    },
+    "metrics": {
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.91056910569105687
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.073170731707317041
+          },
+          {
+            "start": 4000,
+            "density": 0.016260162601626011
+          }
+        ],
+        "percentiles": {
+          "p75": 1613
+        }
+      },
+      "cumulative_layout_shift": {
+        "histogram": [
+          {
+            "start": "0.00",
+            "end": "0.10",
+            "density": 1
+          },
+          {
+            "start": "0.10",
+            "end": "0.25"
+          },
+          {
+            "start": "0.25"
+          }
+        ],
+        "percentiles": {
+          "p75": "0.00"
+        }
+      },
+      "experimental_interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.92682926829268286
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.065040650406504086
+          },
+          {
+            "start": 500,
+            "density": 0.008130081300813009
+          }
+        ],
+        "percentiles": {
+          "p75": 68
+        }
+      },
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.60360360360360354
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.2792792792792792
+          },
+          {
+            "start": 1800,
+            "density": 0.11711711711711716
+          }
+        ],
+        "percentiles": {
+          "p75": 1314
+        }
+      },
+      "first_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 1800,
+            "density": 0.814516129032258
+          },
+          {
+            "start": 1800,
+            "end": 3000,
+            "density": 0.1370967741935484
+          },
+          {
+            "start": 3000,
+            "density": 0.048387096774193568
+          }
+        ],
+        "percentiles": {
+          "p75": 1611
+        }
+      },
+      "first_input_delay": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 100,
+            "density": 0.91509433962264142
+          },
+          {
+            "start": 100,
+            "end": 300,
+            "density": 0.075471698113207572
+          },
+          {
+            "start": 300,
+            "density": 0.0094339622641509448
+          }
+        ],
+        "percentiles": {
+          "p75": 13
+        }
+      },
+      "interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.92682926829268286
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.065040650406504086
+          },
+          {
+            "start": 500,
+            "density": 0.008130081300813009
+          }
+        ],
+        "percentiles": {
+          "p75": 68
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2023,
+        "month": 5,
+        "day": 15
+      },
+      "lastDate": {
+        "year": 2023,
+        "month": 6,
+        "day": 11
+      }
+    }
+  }
+}
