@@ -1,5 +1,5 @@
 <html lang="en">
-<!-- 
+  <!-- 
 * @license Copyright 2023 Google Inc. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,91 +15,83 @@
 * limitations under the License.
 *
 * @author ghys@google.com (Lou Ghys) -->
-
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Speed Games</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <script type="module" src="dist/index.js">
-    </script>
-    <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="styles/time-counter.css">
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="dist/bundle.js"></script>
+    <link rel="stylesheet" href="styles/index.css" />
+    <link rel="stylesheet" href="styles/time-counter.css" />
+  </head>
 
-<body>
+  <body>
     <div>
-        <div class="line" id="end-line"></div>
-        <div class="line" id="start-line"></div>
+      <div class="line" id="end-line"></div>
+      <div class="line" id="start-line"></div>
     </div>
 
     <div id="input-scene">
-        <input type="file" id="input" accept=".csv">
+      <input type="file" id="input" accept=".csv" />
     </div>
 
     <div id="player-scene">
-        <h2 class="players-title">Candidates</h1>
-            <div id="player-container">
-
-            </div>
-            <template id="player-template">
-                <div class="player-item">
-                    <img src="" class="image">
-                    <div class="text">
-                        <p class="index"></p>
-                        <p class="name"></p>
-                        <br />
-                        <p class="url"></p>
-                    </div>
-                </div>
-            </template>
+      <h2 class="players-title">Candidates</h2>
+      <div id="player-container"></div>
+      <template id="player-template">
+        <div class="player-item">
+          <img src="" class="image" />
+          <div class="text">
+            <p class="index"></p>
+            <p class="name"></p>
+            <br />
+            <p class="url"></p>
+          </div>
+        </div>
+      </template>
     </div>
 
     <div id="waiting-scene">
-        <h1 class="title"></h1>
+      <h1 class="title"></h1>
     </div>
 
     <div id="counter-scene">
-        <div class="counter">
-            <div class="nums">
-                <span class="in">3</span>
-                <span>2</span>
-                <span>1</span>
-                <span>0</span>
-            </div>
-            <h4>Get Ready</h4>
+      <div class="counter">
+        <div class="nums">
+          <span class="in">3</span>
+          <span>2</span>
+          <span>1</span>
+          <span>0</span>
         </div>
-        <div class="final">
-            <h1>GO!</h1>
-        </div>
+        <h4>Get Ready</h4>
+      </div>
+      <div class="final">
+        <h1>GO!</h1>
+      </div>
     </div>
-
 
     <div id="scene">
+      <h1 class="background-title">Title</h1>
 
-
-        <h1 class="background-title">asdlfkjalksdfjLCP</h1>
-
-        <div id="ship-container"></div>
-        <div class="leaderboard">
-            <h2 class="header">Leaderboard</h2>
-            <template id="leaderboard-template">
-                <div class="item">
-                    <p class="place">Test</p>
-                    <p class="index">Test</p>
-                    <p class="name">Test</p>
-                    <p class="value">Test</p>
-                </div>
-            </template>
-            <div id="leaderboard-container">
-            </div>
-        </div>
-
+      <div id="ship-container"></div>
+      <div class="leaderboard">
+        <h2 class="header">Leaderboard</h2>
+        <template id="leaderboard-template">
+          <div class="item">
+            <p class="place">Place</p>
+            <p class="index">Index</p>
+            <p class="name">Name</p>
+            <p class="value">Value</p>
+          </div>
+        </template>
+        <div id="leaderboard-container"></div>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>

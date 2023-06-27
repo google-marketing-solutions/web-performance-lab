@@ -19,8 +19,10 @@
 // Fill this in with the url/name combination of the pubs
 // This has to be done before build time
 const CANDIDATES_NAMES_MAP = {
-}
-
+  'https://example1.org': 'Example Team 1',
+  'https://example2.org': 'Example Team 2',
+  'https://example3.org': 'Example Team 3',
+};
 
 // Example of a canditate name map
 // const CANDIDATES_NAMES_MAP = {
@@ -29,4 +31,4 @@ const CANDIDATES_NAMES_MAP = {
 //     "https://fantastic-retail-pub.glitch.me": "Emma's shop",
 // }
 
-export default CANDIDATES_NAMES_MAP
+export default CANDIDATES_NAMES_MAP;
