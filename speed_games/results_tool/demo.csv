@@ -1,0 +1,4 @@
+URL,chromeUserTiming.LargestContentfulPaint,userTime.gpt-ad-request,chromeUserTiming.firstContentfulPaint
+https://example1.org,1055,300,1055
+https://example2.org,1050,400,1049
+https://example3.org,1085,600,1084
