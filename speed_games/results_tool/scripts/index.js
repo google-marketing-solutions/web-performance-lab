@@ -21,8 +21,9 @@ import sortBy from 'lodash/fp/sortBy';
 import JSConfetti from 'js-confetti';
 import CANDIDATES_NAMES_MAP from '../config';
 import runCountdown from './libraries/countdown';
-import { parse as parseCSV } from 'papaparse';
+import Papa from 'papaparse';
 
+// Scene configuration
 const CONFIG = {
   SETTINGS: {
     duration: 13,
@@ -50,11 +51,12 @@ const CONFIG = {
   ],
 };
 
-/**
- * Actual Code
- */
+// Excluded keys from the csv data, which are not used.
+const excludedKeys = ['Images', 'rendered-html'];
+
+// Global variables used throughout the script and the scenes.
 const globalVariables = {
-  globalInputData: undefined,
+  globalInputData: {},
   teamNameMap: new Map(),
   players: undefined,
   selectedSceneIndex: undefined,
@@ -62,6 +64,7 @@ const globalVariables = {
   confettiGenerator: new JSConfetti(),
 };
 
+// Helper functions used throughout the script and the scenes.
 const HELPER_FUNCTIONS = {
   randomBetween: (min, max) => (Math.random() * (max - min) + min).toFixed(4),
   randomColor: () => `#${Math.floor(Math.random() * 16777215).toString(16)}`,
@@ -74,6 +77,9 @@ const HELPER_FUNCTIONS = {
   },
 };
 
+/**
+ * Map the team name to the url and store it in a map.
+ */
 const displayAndSetPlayers = () => {
   const container = document.querySelector('#player-container');
   const template = document.querySelector('#player-template');
@@ -98,11 +104,15 @@ const displayAndSetPlayers = () => {
     item.querySelector('.index').style.background = candidate.color;
     item.querySelector('.name').textContent = `${candidate.name}`;
     item.querySelector('.url').textContent = `${candidate.url}`;
-    // item.querySelector('.value').textContent = candidate.value.toFixed(2)
     container.appendChild(item);
   });
 };
 
+/**
+ * Run the scene with the given settings and candidates.
+ * @param {Object} settings
+ * @param {Object} candidates
+ */
 const runScene = (settings, candidates) => {
   const scores = candidates.map((c) => c.value);
   const minScore = Math.min(...scores);
@@ -125,34 +135,34 @@ const runScene = (settings, candidates) => {
     const candidateScore = candidate.value;
     const value = (candidateScore - minScore) / (maxScore - minScore);
 
-    const ship = document.createElement('div');
+    // Candidate number
     const p = document.createElement('p');
-    const img = globalVariables.shipGenerator.generateShipImage();
+    p.innerHTML = candidate.index.toString();
 
+    // Ship image
+    const img = globalVariables.shipGenerator.generateShipImage();
+    img.height = CONFIG.SETTINGS.sprites.h;
+    img.width = CONFIG.SETTINGS.sprites.w;
+
+    // Ship object
+    const ship = document.createElement('div');
     ship.style.animationDuration = `${HELPER_FUNCTIONS.randomBetween(1, 3)}s`;
     ship.style.animationDelay = `${HELPER_FUNCTIONS.randomBetween(0, 0.2)}s`;
     ship.classList.add('ship');
     ship.style.background = candidate.color;
-    img.height = CONFIG.SETTINGS.sprites.h;
-    img.width = CONFIG.SETTINGS.sprites.w;
-    p.innerHTML = candidate.index.toString();
     ship.append(p);
     ship.append(img);
-    document.querySelector('#ship-container').append(ship);
-
-    const POSITION = `${value * 30 + 2}vh`;
-
     ship.style.top = `calc(90vh - ${CONFIG.SETTINGS.sprites.h}px)`;
     ship.style.left = `${index * (90 / candidateCount) + 5}vw`;
-    const key = `ship-${index}`;
-    ship.id = key;
+    ship.id = `ship-${index}`;
+    document.querySelector('#ship-container').append(ship);
 
+    // Ship animation
     setTimeout(() => {
       const r = () => HELPER_FUNCTIONS.randomBetween(0.2, 0.99);
       const y = () => HELPER_FUNCTIONS.randomBetween(0.2, 0.99);
       ship.style.transition = `all ${duration}s cubic-bezier(${r()},${r()},${y()},${y()})`;
-      // ship.style.transition = `all ${duration}s ease`
-      ship.style.top = POSITION;
+      ship.style.top = `${value * 30 + 2}vh`;
     }, 200);
   });
 
@@ -184,43 +194,85 @@ const runScene = (settings, candidates) => {
   };
 };
 
+/**
+ * Adds a listener to the input element to upload and parse the CSV file.
+ */
 document.querySelector('#input').addEventListener('input', (event) => {
-  parseCSV(event.target.files[0], {
-    header: true,
-    complete: inputCallback,
-  });
+  const numberOfFiles = event.target.files.length;
+  let filesParsed = 0;
+  for (const file of event.target.files) {
+    Papa.parse(file, {
+      header: true,
+      complete: (fileData) => {
+        handleFileData(fileData, file.name);
+        if (filesParsed++ === numberOfFiles - 1) {
+          showPlayerScene();
+          displayAndSetPlayers();
+        }
+      },
+      error: (error) => {
+        if (filesParsed++ === numberOfFiles - 1) {
+          showPlayerScene();
+          displayAndSetPlayers();
+        }
+      },
+    });
+  }
 });
 
-const inputCallback = (raw) => {
-  let result = {};
-  raw.data.forEach((row) => {
-    if (!row || !('URL' in row) || ('URL' in row && row['URL'].length == 0)) {
-      console.warn('Skipping invalid row', row);
+/**
+ * @param {Object} fileData
+ * @param {String} fileName
+ */
+const handleFileData = (fileData, fileName) => {
+  fileData.data.forEach((row) => {
+    const { URL, Team, ...data } = row;
+    if (!URL || URL.length === 0) {
+      console.warn('Skipping invalid row', row, 'in file', fileName);
     } else {
-      console.debug('Parsing row', row);
-      if ('Team' in row && row['Team'].length > 0) {
-        globalVariables.teamNameMap.set(row['URL'], row['Team']);
+      console.debug('Parsing row', row, 'in file', fileName);
+
+      // Make sure we have a place to store the data.
+      if (!globalVariables.globalInputData[URL]) {
+        globalVariables.globalInputData[URL] = {};
       }
-      const url = row['URL'];
-      Object.keys(row).forEach((key) => {
-        if (typeof result?.[url] === 'undefined') {
-          result[url] = {};
+
+      // Store the team name, if we have one.
+      if (Team && Team.length > 0) {
+        globalVariables.teamNameMap.set(URL, Team);
+      }
+
+      // Store the data, but skipping special keys and not overriding existing data.
+      Object.entries(data).forEach(([key, value]) => {
+        if (!excludedKeys.includes(key)) {
+          if (!globalVariables.globalInputData[URL][key]) {
+            globalVariables.globalInputData[URL][key] = [];
+          }
+          globalVariables.globalInputData[URL][key].push(Number(value));
         }
-        if (typeof result?.[url]?.[key] === 'undefined') {
-          result[url][key] = [];
-        }
-        result[url][key] = [
-          ...((result[url] ?? {})[key] ?? []),
-          Number(row[key]),
-        ];
       });
     }
   });
-  globalVariables.globalInputData = result;
+};
+
+/**
+ * Toggles the player / team overlay.
+ */
+const togglePlayerScene = () => {
+  showPlayerScene(
+    document.querySelector('#player-scene').style.display === 'none'
+  );
+};
+
+/**
+ * @param {boolean} visible
+ */
+const showPlayerScene = (visible = true) => {
   document.querySelector('#input-scene').style.display = 'none';
   document.querySelector('#waiting-scene').style.display = 'none';
-  document.querySelector('#player-scene').style.display = 'block';
-  displayAndSetPlayers();
+  document.querySelector('#player-scene').style.display = visible
+    ? 'block'
+    : 'none';
 };
 
 const setup = () => {
@@ -230,7 +282,11 @@ const setup = () => {
   document.querySelector('#player-scene').style.display = 'none';
 };
 
+/**
+ * Add the event listeners for the different keys.
+ */
 window.addEventListener('keyup', (event) => {
+  const isPlayerDebugKey = event.key === 'p';
   const isConfettitDebugKey = event.key === 'c';
   const isSpacebarKey = event.code === 'Space';
   const isSceneSelectionKey =
@@ -252,22 +308,23 @@ window.addEventListener('keyup', (event) => {
     document
       .querySelector('#scene')
       .querySelector('.background-title').innerHTML = scene.title;
-  }
-
-  if (isConfettitDebugKey) {
+  } else if (isConfettitDebugKey) {
     shootConfetti();
-  }
-
-  if (isSpacebarKey) {
-    const sceneConfig = CONFIG.SCENES[globalVariables.selectedSceneIndex];
+  } else if (isSpacebarKey) {
     const candidates = getCandidates();
     runCountdown();
     setTimeout(() => {
       runScene({ title: scene.title, callback: () => {} }, candidates);
     }, 5000);
+  } else if (isPlayerDebugKey) {
+    togglePlayerScene();
   }
 });
 
+/**
+ * Get the candidates for the current scene.
+ * @returns {Object}
+ */
 const getCandidates = () => {
   const scene = CONFIG.SCENES[globalVariables.selectedSceneIndex];
   let candidates = {};

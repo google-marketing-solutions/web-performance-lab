@@ -35,9 +35,25 @@ The file should be a comma separated value (`.csv`) with at least the following 
 - `URL`: The url of the tested website
 - `chromeUserTiming.LargestContentfulPaint`: Used for the "Largest Contentful Paint" scene (1)
 - `userTime.gpt-ad-request`: Used for the "Time to first Ad request" scene (2)
-- `chromeUserTiming.firstContentfulPaint`: Used for the "First Contentful Paint" scene (2)
+- `chromeUserTiming.firstContentfulPaint`: Used for the "First Contentful Paint" scene (3)
 
 An example of this can be found as [demo.csv](examples/demo_with_team.csv)
+
+#### Metric: userTime.gpt-ad-request
+
+The `userTime.gpt-ad-request` is a custom metric which is used to measure the time to first ad request.
+It will be collected over the following code snippet:
+
+```js
+let isFirstAdRequest = true;
+googletag.pubads().addEventListener('slotRequested', function () {
+  if (isFirstAdRequest) {
+    performance.mark('gpt-ad-request');
+    console.log('First ad request time: ', Math.round(performance.now()));
+    isFirstAdRequest = false;
+  }
+});
+```
 
 #### Adding team names (optional)
 
@@ -46,3 +62,30 @@ You can optional adding a team name directly into the .csv file with the followi
 - `Team`: Name of the team which will be displayed.
 
 An example of this can be found as [demo_with_team.csv](examples/demo_with_team.csv)
+
+## During the event
+
+The last version allows to upload multiple .csv files and will display the results of all of them.
+You can additionally upload a `.json` file containing the team names and urls like:
+
+- `Team`: Name of the team which will be displayed.
+- `URL`: The url of the tested website
+
+This allows to display the team names and urls instead of the candidate urls and to skip the manual step of preparing the `.csv` file.
+
+During the scene you can use the `t` key to toggle the team names and urls.
+
+## Hotkeys
+
+The following hotkeys are available after the `.csv` file has been processed:
+
+- `1`: Load Largest Contentful Paint scene
+- `2`: Load Time to first Ad request scene
+- `3`: Load First Contentful Paint scene
+- `spacebar`: Run the selected scene
+- `c`: More confetti
+- `t`: Shows / hides the team names and urls
+
+## Development
+
+For development, please refer to the [DEVELOPMENT.md](DEVELOPMENT.md) file.
