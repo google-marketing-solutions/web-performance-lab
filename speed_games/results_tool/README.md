@@ -41,7 +41,7 @@ An example of this can be found as [demo.csv](examples/demo_with_team.csv)
 
 #### Metric: userTime.gpt-ad-request
 
-The `userTime.gpt-ad-request` is a custom metric which is used to measure the time to first ad request.
+`userTime.gpt-ad-request` is a custom metric which is used to measure the time to first ad request.
 It will be collected over the following code snippet:
 
 ```js
@@ -65,8 +65,8 @@ An example of this can be found as [demo_with_team.csv](examples/demo_with_team.
 
 ## During the event
 
-The last version allows to upload multiple .csv files and will display the results of all of them.
-You can additionally upload a `.json` file containing the team names and urls like:
+The latest version allows to upload multiple .csv files and will display the results of all of them.
+You can additionally upload a extra `.csv` file containing the team names and urls like:
 
 - `Team`: Name of the team which will be displayed.
 - `URL`: The url of the tested website
