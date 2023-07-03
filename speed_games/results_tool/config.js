@@ -19,9 +19,9 @@
 // Fill this in with the url/name combination of the pubs
 // This has to be done before build time
 const CANDIDATES_NAMES_MAP = {
-  'https://example1.org': 'Example Team 1',
-  'https://example2.org': 'Example Team 2',
-  'https://example3.org': 'Example Team 3',
+  'https://example.org/1': 'Example Team 1',
+  'https://example.org/2': 'Example Team 2',
+  'https://example.org/3': 'Example Team 3',
 };
 
 // Example of a canditate name map

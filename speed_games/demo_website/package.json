@@ -4,7 +4,8 @@
   "description": "An example of a website filled with unoptimized code. Meant to be used during training to improve and apply best practices.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "upgrade": "npx npm-check -u && npm install && npm update && npm prune && npm audit fix"
   },
   "dependencies": {
     "fastify": "^4.12.0",

@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild scripts/index.js --bundle --outfile=dist/bundle.js && uglifyjs dist/bundle.js --compress --output dist/bundle.js",
+    "build": "esbuild scripts/index.js --bundle --outfile=dist/bundle.js && uglifyjs dist/bundle.js --compress -c --comments 'all' --output dist/bundle.js",
     "build-watch": "esbuild scripts/index.js --bundle --outfile=dist/bundle.js --watch",
     "server": "http-server -c-1 -p 0 -a localhost -o",
     "start": "npm run build && npm run server",
