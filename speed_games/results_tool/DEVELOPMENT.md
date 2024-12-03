@@ -23,7 +23,8 @@ Note: This will not automatically reload the browser window or watch for changes
 
 ## Upgrade packages
 
-To upgrade packages, you can use a pre-defined script which is using [npm-check](https://www.npmjs.com/package/npm-check).
+To upgrade packages, you can use a pre-defined script which is
+using [npm-check](https://www.npmjs.com/package/npm-check).
 
 1. In a terminal, `npm run upgrade`
 2. Select the packages you want to upgrade.

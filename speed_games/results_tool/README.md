@@ -7,25 +7,28 @@
 3. In a terminal, `npm run start`
 4. Visit <http://localhost:8080/> in a browser
 5. Choose the `.csv` file containing the results
-   - Refer to the section `Input file`
-   - After a correct file has been processed, you should see the candidates names (or a candidate url if you haven't setup `config.js`), alongside a unique color and number for each candidate
+    - Refer to the section `Input file`
+    - After a correct file has been processed, you should see the candidates names (or a candidate
+      url if you haven't setup `config.js`), alongside a unique color and number for each candidate
 6. Load one of the scenes by pressing the key 1, 2 or 3.
-   - Key 1: Largest Contentful Paint
-   - Key 2: Time to first Ad request
-   - Key 3: First Contentful Paint
-   - Note: At any point in the app, you can press the keys to go a new scene, and restart without having to re-upload the `.csv` file
+    - Key 1: Largest Contentful Paint
+    - Key 2: Time to first Ad request
+    - Key 3: First Contentful Paint
+    - Note: At any point in the app, you can press the keys to go a new scene, and restart without
+      having to re-upload the `.csv` file
 7. When in a scene selection (when you see a large title), press the `space` key to start the race.
 
 ## Running (online)
 
 1. Visit <https://google-marketing-solutions.github.io/web-performance-lab/speed_games/results_tool/>
 2. Choose the `.csv` file containing the results
-   - Refer to the section [Input file](#Input_file)
+    - Refer to the section [Input file](#Input_file)
 3. Load one of the scenes by pressing the key 1, 2 or 3.
-   - Key 1: Largest Contentful Paint
-   - Key 2: Time to first Ad request
-   - Key 3: First Contentful Paint
-   - Note: At any point in the app, you can press the keys to go a new scene, and restart without having to re-upload the `.csv` file
+    - Key 1: Largest Contentful Paint
+    - Key 2: Time to first Ad request
+    - Key 3: First Contentful Paint
+    - Note: At any point in the app, you can press the keys to go a new scene, and restart without
+      having to re-upload the `.csv` file
 4. When in a scene selection (when you see a large title), press the `space` key to start the race.
 
 ### Input file
@@ -46,7 +49,7 @@ It will be collected over the following code snippet:
 
 ```js
 let isFirstAdRequest = true;
-googletag.pubads().addEventListener('slotRequested', function () {
+googletag.pubads().addEventListener('slotRequested', function() {
   if (isFirstAdRequest) {
     performance.mark('gpt-ad-request');
     console.log('First ad request time: ', Math.round(performance.now()));
@@ -71,7 +74,8 @@ You can additionally upload a extra `.csv` file containing the team names and ur
 - `Team`: Name of the team which will be displayed.
 - `URL`: The url of the tested website
 
-This allows to display the team names and urls instead of the candidate urls and to skip the manual step of preparing the `.csv` file.
+This allows to display the team names and urls instead of the candidate urls and to skip the manual
+step of preparing the `.csv` file.
 
 During the scene you can use the `t` key to toggle the team names and urls.
 

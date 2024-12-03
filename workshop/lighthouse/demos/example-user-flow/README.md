@@ -1,6 +1,7 @@
 # Example User Flow using Lighthouse and Puppeteer
 
-This demo shows how to use Lighthouse and Puppeteer to run a Lighthouse audit with a defined user flow.
+This demo shows how to use Lighthouse and Puppeteer to run a Lighthouse audit with a defined user
+flow.
 
 ## Prerequisites
 
@@ -9,14 +10,16 @@ Before getting started, make sure you have the following prerequisites installed
 - NPM (Node Package Manager)
 - Node.js
 
-If you haven't installed them yet, please visit the official NPM and Node.js websites to download and install the latest versions for your operating system.
+If you haven't installed them yet, please visit the official NPM and Node.js websites to download
+and install the latest versions for your operating system.
 
 ## Installation
 
 To install the required dependencies, simply run the following command:
 `npm install`
 
-This command will automatically fetch and install all the necessary dependencies listed in the project's package.json file. Make sure you run this command in the root directory of your project.
+This command will automatically fetch and install all the necessary dependencies listed in the
+project's package.json file. Make sure you run this command in the root directory of your project.
 
 ## Usage
 

@@ -1,8 +1,8 @@
 {
   "author": "Markus Bordihn (mbordihn@google.com)",
   "dependencies": {
-    "lighthouse": "^10.2.0",
-    "puppeteer": "^20.5.0"
+    "lighthouse": "^12.2.2",
+    "puppeteer": "^23.9.0"
   },
   "type": "module",
   "scripts": {

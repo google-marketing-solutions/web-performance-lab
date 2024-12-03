@@ -18,15 +18,15 @@
   "dependencies": {
     "@yuigoto/infiniship-js": "^1.0.0",
     "confetti-js": "^0.0.18",
-    "csv-parse": "^5.4.0",
-    "js-confetti": "^0.11.0",
+    "csv-parse": "^5.6.0",
+    "js-confetti": "^0.12.0",
     "lodash": "^4.17.21",
     "papaparse": "^5.4.1"
   },
   "devDependencies": {
-    "esbuild": "^0.18.10",
+    "esbuild": "^0.24.0",
     "http-server": "^14.1.1",
     "npm-run-all": "^4.1.5",
-    "uglify-js": "^3.17.4"
+    "uglify-js": "^3.19.3"
   }
 }
