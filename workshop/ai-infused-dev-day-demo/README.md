@@ -1,14 +1,12 @@
 # Performance Lab Sandbox: Editorial News Site Production Anomalies
 
-This repository is a sandboxed news site containing three pages—**Home** (`index.html`), **Global** (`global.html`), and **Economy** (`economy.html`)—designed to demonstrate authentic, non-simulated performance bugs commonly found in high-traffic, ad-heavy publisher websites. 
+This repository is a sandboxed news site containing three pages—**Home** (`index.html`), **Global** (`global.html`), and **Economy** (`economy.html`)—designed to demonstrate performance bugs commonly found in high-traffic publisher websites with ads. 
 
-These issues directly impact Core Web Vitals (LCP, CLS, INP) and BFCache safety, mimicking real-world production configurations.
+These issues directly impact Core Web Vitals (LCP, CLS, INP) and BFCache eligibility, mimicking real-world scenarios.
 
 ---
 
 ## Codebase Folder Structure
-
-To ensure a clean, professional architecture and completely eliminate code redundancy, all common styling, placeholder images, and JavaScript functionality are extracted into shared modular files under dedicated directories:
 
 ```
 ├── css/
@@ -29,6 +27,13 @@ To ensure a clean, professional architecture and completely eliminate code redun
 
 ---
 
-## You can run a local server
+## How to Run Locally
 
-`python3 -m http.server`
+To start the local development server:
+
+```bash
+cd workshop/ai-infused-dev-day-demo
+python3 -m http.server 8000
+```
+
+Open your browser of choice and navigate to `http://localhost:8000/`.
