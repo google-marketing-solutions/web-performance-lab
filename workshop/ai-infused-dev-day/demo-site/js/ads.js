@@ -29,10 +29,12 @@ var article_ads = [];
 googletag.cmd.push(function () {
     sidebar_ad = googletag
         .defineSlot("/6353/ernberg/sidebar", [300, 600], "sidebar_ad")
+        .setTargeting("slot_name", "sidebar")
         .addService(googletag.pubads());
     
     leaderboard_ad = googletag
         .defineSlot("/6353/ernberg/leaderboard", [728, 90], "leaderboard_ad")
+        .setTargeting("slot_name", "leaderboard")
         .addService(googletag.pubads());
 
     var leaderBoardSizeMapping = googletag
