@@ -8,7 +8,7 @@
     "upgrade": "npx npm-check -u && npm install && npm update && npm prune && npm audit fix"
   },
   "dependencies": {
-    "fastify": "^4.12.0",
+    "fastify": "^4.28.1",
     "@fastify/static": "^6.8.0",
     "handlebars": "^4.7.7",
     "@fastify/view": "^7.4.1",
